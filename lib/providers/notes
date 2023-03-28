@@ -1,0 +1,24 @@
+"Provider" is a state management library for Flutter that provides a simple and efficient way to share
+and manage data between different parts of your app. It uses the InheritedWidget mechanism that Flutter provides
+ to propagate data down the widget tree, and it makes it easy to update the state of your app in response to user actions or other events.
+
+
+With Provider, you can define a "model" class that holds the state of your app, and then use a "Provider"
+widget to share that model with the rest of your app. Any widget that needs access to the data can use
+the "Provider" widget to get the model, and the framework will automatically rebuild the widget whenever the model changes.
+
+
+Provider makes it easy to implement reactive programming in your app, where the UI updates in
+response to changes in the state of your app. It also helps to make your code more modular and easier to maintain,
+by separating the concerns of your app into different classes and widgets.
+
+
+One of the advantages of using Provider is that it is simple and easy to use, yet powerful enough to handle complex state management scenarios
+. It also has good performance characteristics, because it only rebuilds the parts of the widget tree that are affected by a state change.
+
+
+Provider is an open-source library that is maintained by the Flutter community, and it is widely used in production apps.
+ It is compatible with other state management solutions in Flutter, so you can use it alongside other libraries like Redux or BLoC.
+
+
+
