@@ -24,16 +24,21 @@ import '../widgets/AppDrawer.dart';
 
 //we converted it to stateless widget and use futurebuilder widget because we are using stateful only due ot spinner
 
+//The FutureBuilder widget is used to asynchronously build a widget tree  or rebuilt the builder  based on the state of a Future. In this case, the fetchAndSetOrder() method of the Orders provider class returns a Future that fetches and sets the user's order data.
+//
+// Since the order data is not available immediately, FutureBuilder is used to show a loading indicator (CircularProgressIndicator) while the data is being fetched. Once the data is fetched, FutureBuilder rebuilds the widget tree and displays the order data using a ListView.builder.
+//
+// Using FutureBuilder in this scenario helps to improve the user experience by displaying a loading indicator while the data is being fetched, and then displaying the order data once it's available.
 class OrderScreen extends StatelessWidget {
   static const String id = 'OrderScreen';
 
-  var _isLoading = false;
+
 
   // @override
   @override
   Widget build(BuildContext context) {
     // final OrderData = Provider.of<Orders>(context); // here ont call listenr as changes lead to rebuild of widget and future builder
-    // again get call  this go on forver instead we use consumer
+    // again get call  this go on forever instead we use consumer
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Orders'),
@@ -47,6 +52,7 @@ class OrderScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (dataSnapshot.error != null) {
+
             return Center(
               child: Text('an error occured'),
             );

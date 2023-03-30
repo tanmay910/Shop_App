@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/models/auth.dart';
 import 'package:shop_app/models/productModel.dart';
 import 'package:shop_app/screens/Product_detatils_screen.dart';
 
@@ -15,6 +16,7 @@ class ProductItem extends StatelessWidget {
 
     // Now we use consumer widget instead of provider.of(context) as it rebuilt whole widget but data that change only affect small
     // protion of widget then we use consumer as we wrap the  widget with consumer
+  final auth=Provider.of<Auth>(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -44,7 +46,7 @@ class ProductItem extends StatelessWidget {
                 color: Theme.of(context).secondaryHeaderColor,
               ),
               onPressed: () {
-                product.toggleFavourite();
+                product.toggleFavourite(auth.token!,auth.userID!);
               },
             ),
           ),
