@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
             //Consumer<Auth> listens for changes to the Auth object.
             // Whenever the value of Authdata changes, the builder function is called.The builder function of Consumer<Auth> returns a MaterialApp widget. This widget is the root of the app and is responsible for setting the app's title, theme, and home screen.
 
-            // The home property of MaterialApp is set to a FutureBuilder. This widget is responsible for showing either the SplashScreen or the AuthScreen, depending on whether the user is already authenticated or not.
+            // The home propertys of MaterialApp is set to a FutureBuilder. This widget is responsible for showing either the SplashScreen or the AuthScreen, depending on whether the user is already authenticated or not.
             // The future property of FutureBuilder is set to Authdata.tryAutoLogin(). This method returns a Future that resolves to the user's authentication state.
             // The builder function of FutureBuilder is called when the future resolves. If the future is still in progress, ConnectionState.waiting is returned, which displays the SplashScreen. Otherwise, the builder checks whether the user is authenticated or not.
 
