@@ -43,11 +43,14 @@ class _OrderItemcardState extends State<OrderItemcard> {
               children: widget.order.products.map((prod) => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    prod.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                  Flexible(
+                    child: Text(
+                      prod.title,
+                      softWrap: true,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
 
@@ -55,7 +58,7 @@ class _OrderItemcardState extends State<OrderItemcard> {
                     '${prod.quantity}x \$${prod.price}',
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: 18,
+                      fontSize: 15,
 
                     ),
                   )

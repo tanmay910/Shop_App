@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/models/auth.dart';
 import 'package:shop_app/screens/OrdersScreen.dart';
 import 'package:shop_app/screens/User_products_screen.dart';
+import 'package:shop_app/screens/auth_screen.dart';
 import 'package:shop_app/screens/product_overview_screen.dart';
 
 class Appdrawer extends StatelessWidget {
@@ -47,8 +48,8 @@ class Appdrawer extends StatelessWidget {
             title: Text('Logout'),
             onTap: (){
               Navigator.pop(context);
-              Provider.of<Auth>(context,listen: false).logout();
-              // Navigator.pushReplacementNamed(context,UserProductsScreen.id );
+              Provider.of<Auth>(context, listen: false).logout();
+               Navigator.pushReplacementNamed(context,AuthScreen.id );
             },
           )
         ],

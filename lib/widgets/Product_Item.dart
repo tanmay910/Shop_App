@@ -11,12 +11,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
-    //  this create instance or object of class that is registered in provider
-    // here it return product object
-
-    // Now we use consumer widget instead of provider.of(context) as it rebuilt whole widget but data that change only affect small
-    // protion of widget then we use consumer as we wrap the  widget with consumer
-  final auth=Provider.of<Auth>(context);
+    final auth = Provider.of<Auth>(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -26,16 +21,40 @@ class ProductItem extends StatelessWidget {
             Navigator.pushNamed(context, ProductDetails.id,
                 arguments: product.id);
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Stack(
+            children: [
+              Image.network(
+                product.imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withOpacity(0.6),
+                        Colors.transparent,
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         footer: GridTileBar(
-          backgroundColor: Colors.black45,
+          backgroundColor: Colors.transparent,
           title: Text(
             product.title,
             textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           leading: Consumer<Product>(
             builder: (c, product, child) => IconButton(
@@ -43,28 +62,32 @@ class ProductItem extends StatelessWidget {
                 product.isFavorite
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
-                color: Theme.of(context).secondaryHeaderColor,
+                color: Colors.red.shade800,
               ),
               onPressed: () {
-                product.toggleFavourite(auth.token!,auth.userID!);
+                product.toggleFavourite(auth.token!, auth.userId!);
               },
             ),
           ),
           trailing: IconButton(
-            icon: Icon(Icons.shopping_cart,
-                color: Theme.of(context).secondaryHeaderColor),
+            icon: Icon(
+              Icons.shopping_cart,
+              color: Colors.red.shade800,
+            ),
             onPressed: () {
               cart.addItem(product.id, product.title, product.price);
 
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(' Item Added to cart'),
-                  duration: Duration(seconds: 3),
-                  action: SnackBarAction(
-                      label: 'UNDO',
-                      onPressed: () {
-                        cart.removeSingleItem(product.id);
-                      })));
+                content: Text('Item Added to Cart'),
+                duration: Duration(seconds: 3),
+                action: SnackBarAction(
+                  label: 'UNDO',
+                  onPressed: () {
+                    cart.removeSingleItem(product.id);
+                  },
+                ),
+              ));
             },
           ),
         ),
@@ -72,3 +95,4 @@ class ProductItem extends StatelessWidget {
     );
   }
 }
+

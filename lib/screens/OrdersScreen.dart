@@ -29,44 +29,57 @@ import '../widgets/AppDrawer.dart';
 // Since the order data is not available immediately, FutureBuilder is used to show a loading indicator (CircularProgressIndicator) while the data is being fetched. Once the data is fetched, FutureBuilder rebuilds the widget tree and displays the order data using a ListView.builder.
 //
 // Using FutureBuilder in this scenario helps to improve the user experience by displaying a loading indicator while the data is being fetched, and then displaying the order data once it's available.
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
   static const String id = 'OrderScreen';
 
+  @override
+  State<OrderScreen> createState() => _OrderScreenState();
+}
 
+class _OrderScreenState extends State<OrderScreen> {
+  late Future<void> _fetchSetOrders;
 
-  // @override
+  @override
+  void initState() {
+    super.initState();
+    _fetchSetOrders =
+        Provider.of<Orders>(context, listen: false).fetchAndSetOrder();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final OrderData = Provider.of<Orders>(context); // here ont call listenr as changes lead to rebuild of widget and future builder
-    // again get call  this go on forever instead we use consumer
+    //final orderData = Provider.of<Orders>(context, listen: true);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Orders'),
       ),
-      drawer: Appdrawer(),
       body: FutureBuilder(
-        future: Provider.of<Orders>(context, listen: false).fetchAndSetOrder(),
+        future: _fetchSetOrders,
         builder: (ctx, dataSnapshot) {
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (dataSnapshot.error != null) {
-
-            return Center(
-              child: Text('an error occured'),
-            );
+            return Center(child: CircularProgressIndicator());
           } else {
-            return Consumer<Orders>(
-              builder: (ctx, orderData, child) => ListView.builder(
-                itemCount: orderData.orders.length,
-                itemBuilder: (ctx, i) =>
-                    OrderItemcard(order: orderData.orders[i]),
-              ),
-            );
+            if (dataSnapshot.error != null) {
+              //.. do error handling
+              return Center(
+                child: Text('An error occured!'),
+              );
+            } else {
+              //Instead of using the Provider.of method above which rebuilds the entire build method when data changes and makes multiple calls to fetch Orders,
+              //only rebuild the ListView when data changes (avoiding multiple calls and an infinite loop)
+              return Consumer<Orders>(builder: (ctx, orderData, child) {
+                return ListView.builder(
+                  itemCount: orderData.orders.length,
+                  itemBuilder: (ctx, i) =>
+                      OrderItemcard(order: orderData.orders[i]),
+                );
+              });
+            }
           }
         },
       ),
+      drawer: Appdrawer(),
     );
   }
 }

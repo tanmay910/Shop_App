@@ -32,6 +32,9 @@ class Orders with ChangeNotifier {
 
 
   Future<void> fetchAndSetOrder() async {
+
+    print(userID);
+
     final url =
         'https://shop-app-3bd1d-default-rtdb.firebaseio.com/orders/$userID.json?auth=$authtoken';
 

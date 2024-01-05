@@ -13,18 +13,22 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
-    // transformConfig.translate(-10.0);
+
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
+          Positioned.fill(
+            child: Image.asset(
+              'images/shopAuth.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  Color.fromRGBO(255, 240, 240, 0.2), // Reduced transparency
+                  Color.fromRGBO(255, 228, 225, 0.2), // Reduced transparency
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -36,50 +40,32 @@ class AuthScreen extends StatelessWidget {
             child: Container(
               height: deviceSize.height,
               width: deviceSize.width,
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 20.0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)
-                        ..translate(-10.0),
-
-                      // Matrix4.rotationZ(-8 * pi / 180) - This creates a 4x4 transformation matrix that represents a rotation around the Z-axis by -8 degrees. The rotationZ method takes an angle in radians as input, so the code first converts -8 degrees to radians by multiplying it by pi/180.
-
-                      // ..translate(-10.0) - The .. is called a cascade operator in Dart, and it allows multiple operations to be performed on the same object. In this case, it applies a translation to the same object that was rotated in the previous step. The translate method creates a new 4x4 transformation matrix that represents a translation in the X, Y, and Z directions by -10 units.
-
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange.shade900,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 8,
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
-                          )
-                        ],
-                      ),
-                      child: Text(
-                        'MyShop',
-                        style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary)
-                              .color,
-                          fontSize: 50,
-                          fontFamily: 'Anton',
-                          fontWeight: FontWeight.normal,
-                        ),
+                  SizedBox(height: 50), // Add spacing from the top
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.0,
+                      horizontal: 10,
+                    ),
+                    transform: Matrix4.rotationX(-8 * pi / 180),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'InstaBuy',
+                      style: TextStyle(
+                        color: Colors.purple.shade600,
+                        fontSize: 60, // Increase font size
+                        fontFamily: 'Anton',
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ),
+                  SizedBox(
+                      height: 100), // Add spacing between the title and AuthCard
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
                     child: AuthCard(),
@@ -111,18 +97,20 @@ class _AuthCardState extends State<AuthCard> {
 
   void showErrorMessage(String message) {
     showDialog(
-        context: context,
-        builder: (c) => AlertDialog(
-              title: Text('An error occurred'),
-              content: Text(message),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(c);
-                    },
-                    child: Text('okay')),
-              ],
-            ));
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text('An error occurred'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(c);
+            },
+            child: Text('Okay'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _submit() async {
@@ -142,26 +130,25 @@ class _AuthCardState extends State<AuthCard> {
       } else {
         // Sign user up
         await Provider.of<Auth>(context, listen: false)
-            .Signup(_authData['email']!, _authData['password']!);
+            .signup(_authData['email']!, _authData['password']!);
       }
     } on httpException catch (error) {
-      var errorMessage = 'Action Failed .Try again later';
+      var errorMessage = 'Action failed. Try again later.';
       if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'Email Already Exists';
+        errorMessage = 'Email already exists.';
       } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not valid email';
+        errorMessage = 'This is not a valid email.';
       } else if (error.toString().contains('WEAK_PASSWORD')) {
-        errorMessage = 'This the weak password';
+        errorMessage = 'This is a weak password.';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'Invalid Password';
+        errorMessage = 'Invalid password.';
       } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'could not find user with given email';
+        errorMessage = 'Could not find a user with the given email.';
       }
 
       showErrorMessage(errorMessage);
-
     } catch (error) {
-      const errorMessage = 'Action Failed .Try again later';
+      const errorMessage = 'Action failed. Try again later.';
       showErrorMessage(errorMessage);
     }
 
@@ -193,7 +180,7 @@ class _AuthCardState extends State<AuthCard> {
       child: Container(
         height: _authMode == AuthMode.Signup ? 320 : 260,
         constraints:
-            BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+        BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -234,10 +221,10 @@ class _AuthCardState extends State<AuthCard> {
                     obscureText: true,
                     validator: _authMode == AuthMode.Signup
                         ? (value) {
-                            if (value != _passwordController.text) {
-                              return 'Passwords do not match!';
-                            }
-                          }
+                      if (value != _passwordController.text) {
+                        return 'Passwords do not match!';
+                      }
+                    }
                         : null,
                   ),
                 SizedBox(
@@ -248,7 +235,7 @@ class _AuthCardState extends State<AuthCard> {
                 else
                   MaterialButton(
                     child:
-                        Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
+                    Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
                     onPressed: _submit,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -257,14 +244,14 @@ class _AuthCardState extends State<AuthCard> {
                         horizontal: 30.0, vertical: 8.0),
                     color: Theme.of(context).primaryColor,
                     textColor:
-                        Theme.of(context).primaryTextTheme.titleMedium?.color,
+                    Theme.of(context).primaryTextTheme.titleMedium?.color,
                   ),
                 MaterialButton(
                   child: Text(
                       '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
                   onPressed: _switchAuthMode,
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   textColor: Theme.of(context).primaryColor,
                 ),
@@ -276,3 +263,4 @@ class _AuthCardState extends State<AuthCard> {
     );
   }
 }
+

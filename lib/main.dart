@@ -19,6 +19,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  //static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
           // Auth class change update run and change the list and token
 
           update: (ctx, auth, previousProducts) => Products( auth.token ?? '',
-              previousProducts == null ? [] : previousProducts!.items,auth.userID?? ''),
+              previousProducts == null ? [] : previousProducts!.items,auth.userId?? ''),
           // we want our items not delete after we rebuild the Products therefore we initialise it
           // at first we it would be null as our data is not fetched we would initialise it
           // [] and then it would previous products
@@ -62,19 +63,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Orders>(
             create: (ctx) => Orders('', [],''),
             update: (ctx, auth, previousOrders) => Orders(auth.token??'',
-                previousOrders == null ? [] : previousOrders!.orders,auth.userID?? '')),
+                previousOrders == null ? [] : previousOrders!.orders,auth.userId?? '')),
       ],
       child: Consumer<Auth>(
           builder: (ctx, Authdata, _) => MaterialApp(
-                title: 'My shop',
-                theme: ThemeData(
-                  secondaryHeaderColor: Colors.deepOrange,
-                  primarySwatch: Colors.indigo,
-                  fontFamily: 'Lato',
-                ),
+            //navigatorKey: navigatorKey,
+            title: 'My shop',
+            theme: ThemeData(
+              secondaryHeaderColor: Colors.deepOrange,
+              primarySwatch: Colors.indigo,
+              fontFamily: 'Lato',
+            ),
 
 
-                //Consumer<Auth> listens for changes to the Auth object.
+            //Consumer<Auth> listens for changes to the Auth object.
             // Whenever the value of Authdata changes, the builder function is called.The builder function of Consumer<Auth> returns a MaterialApp widget. This widget is the root of the app and is responsible for setting the app's title, theme, and home screen.
 
             // The home property of MaterialApp is set to a FutureBuilder. This widget is responsible for showing either the SplashScreen or the AuthScreen, depending on whether the user is already authenticated or not.
@@ -85,21 +87,21 @@ class MyApp extends StatelessWidget {
             // If the user logs in or logs out while using the app, the Auth object will notify its listeners (including Consumer<Auth>) of the change. When this happens, the builder function of Consumer<Auth> will be called again, and the UI will update to reflect the new authentication state.
             // In summary, Consumer and FutureBuilder work together to manage the state of the app and to display different screens depending on that state. Consumer listens for changes to the Auth object, while FutureBuilder manages the asynchronous process of checking the user's authentication state. When the future resolves, the builder function of FutureBuilder checks the authentication state and displays the appropriate screen.
 
-                home: Authdata.isAuth ? ProductOverviewScreen() : FutureBuilder(
-                    future: Authdata.tryAutoLogin(),
-                    builder:(ctx,userAuthsnapshot) =>
-                      userAuthsnapshot.connectionState == ConnectionState.waiting ? SplashScreen():AuthScreen()),
-                routes: {
-                  ProductDetails.id: (context) => ProductDetails(),
-                  CartScreen.id: (context) => CartScreen(),
-                  ProductOverviewScreen.id: (context) =>
-                      ProductOverviewScreen(),
-                  OrderScreen.id: (context) => OrderScreen(),
-                  UserProductsScreen.id: (context) => UserProductsScreen(),
-                  EditProductScreen.id: (context) => EditProductScreen(),
-                  AuthScreen.id: (context) => AuthScreen(),
-                },
-              )),
+            home: Authdata.isAuth ? ProductOverviewScreen() : FutureBuilder(
+                future: Authdata.tryAutoLogin(),
+                builder:(ctx,userAuthsnapshot) =>
+                userAuthsnapshot.connectionState == ConnectionState.waiting ? SplashScreen():AuthScreen()),
+            routes: {
+              ProductDetails.id: (context) => ProductDetails(),
+              CartScreen.id: (context) => CartScreen(),
+              ProductOverviewScreen.id: (context) =>
+                  ProductOverviewScreen(),
+              OrderScreen.id: (context) => OrderScreen(),
+              UserProductsScreen.id: (context) => UserProductsScreen(),
+              EditProductScreen.id: (context) => EditProductScreen(),
+              AuthScreen.id: (context) => AuthScreen(),
+            },
+          )),
     );
   }
 }
