@@ -58,6 +58,10 @@ To run the InstBuy app on your local machine, follow these steps:
 
 ## Screenshots
 
+![yourprods](https://github.com/tanmay910/Shop_App/assets/105966781/e8b03e55-546a-4fcd-ae38-ee8441a2ad0b)
+
+
+
 
 
 
