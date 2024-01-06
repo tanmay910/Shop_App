@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:shop_app/models/http_Exception.dart';
+import 'package:shop_app/screens/product_overview_screen.dart';
 
 import '../models/auth.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,8 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     final deviceSize = MediaQuery.of(context).size;
 
     return Scaffold(

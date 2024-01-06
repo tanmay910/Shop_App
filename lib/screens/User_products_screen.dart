@@ -5,6 +5,8 @@ import 'package:shop_app/screens/edit_product_screen.dart';
 import 'package:shop_app/widgets/AppDrawer.dart';
 import 'package:shop_app/widgets/User_product_item.dart';
 
+import '../models/auth.dart';
+
 class UserProductsScreen extends StatelessWidget {
   static const String id = 'UserProductScreen';
 

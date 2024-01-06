@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/models/auth.dart';
 import 'package:shop_app/screens/OrdersScreen.dart';
 import 'package:shop_app/screens/User_products_screen.dart';
 import 'package:shop_app/screens/auth_screen.dart';
 import 'package:shop_app/screens/product_overview_screen.dart';
 
+
+
+
+
 class Appdrawer extends StatelessWidget {
+
   const Appdrawer({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
     return Drawer(
       child: Column(
         children: [
-          AppBar(
-            title: Text('Hello User'),
-            automaticallyImplyLeading: false,
+          UserAccountsDrawerHeader(
+            accountEmail: Text('Welcome!'),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
+            ), accountName: null,
           ),
           Divider(),
           ListTile(

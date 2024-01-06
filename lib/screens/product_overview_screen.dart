@@ -8,6 +8,7 @@ import 'package:shop_app/widgets/Product_Item.dart';
 import 'package:shop_app/widgets/Product_Grid.dart';
 import 'package:shop_app/widgets/badge.dart';
 
+import '../models/auth.dart';
 import '../providers/Products.dart';
 
 enum FilterOperations {
@@ -66,7 +67,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
     return Scaffold(
       drawer: Appdrawer(),
       appBar: AppBar(
-        title: Text('My Shop'),
+        title: Text('InstaBuy'),
         actions: <Widget>[
           PopupMenuButton(
               onSelected: (selectedValue) {

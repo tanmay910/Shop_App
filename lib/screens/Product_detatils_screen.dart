@@ -41,14 +41,19 @@ class ProductDetails extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Container(
-                height: 20,
-                width: double.infinity,
-                child: Text(
-                  loadedProduct.description,
-                  softWrap: true,
-                  textAlign: TextAlign.center,
-                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                    width: double.infinity,
+                    child: Text(
+                      loadedProduct.description,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                    )),
+              ),
+            ),
           ],
         ),
       ),

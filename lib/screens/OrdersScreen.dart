@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/models/orders.dart';
+import '../models/auth.dart';
 import '../widgets/OrderItemcards.dart';
 import '../widgets/AppDrawer.dart';
 
@@ -48,8 +49,6 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //final orderData = Provider.of<Orders>(context, listen: true);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Orders'),
@@ -60,19 +59,26 @@ class _OrderScreenState extends State<OrderScreen> {
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else {
-            if (dataSnapshot.error != null) {
-              //.. do error handling
+            if (dataSnapshot.hasError) {
+              // Error handling
+              print(dataSnapshot.error);
               return Center(
-                child: Text('An error occured!'),
+                child: Text('An error occurred!'),
               );
             } else {
-              //Instead of using the Provider.of method above which rebuilds the entire build method when data changes and makes multiple calls to fetch Orders,
-              //only rebuild the ListView when data changes (avoiding multiple calls and an infinite loop)
+              // Instead of using the Provider.of method above which rebuilds the entire build method when data changes and makes multiple calls to fetch Orders,
+              // only rebuild the ListView when data changes (avoiding multiple calls and an infinite loop)
               return Consumer<Orders>(builder: (ctx, orderData, child) {
+                if (orderData.orders.isEmpty) {
+                  // No orders, show a message
+                  return Center(
+                    child: Text('You have no orders.'),
+                  );
+                }
+                // Orders are available, show the ListView
                 return ListView.builder(
                   itemCount: orderData.orders.length,
-                  itemBuilder: (ctx, i) =>
-                      OrderItemcard(order: orderData.orders[i]),
+                  itemBuilder: (ctx, i) => OrderItemcard(order: orderData.orders[i]),
                 );
               });
             }
@@ -82,5 +88,6 @@ class _OrderScreenState extends State<OrderScreen> {
       drawer: Appdrawer(),
     );
   }
+
 }
 //

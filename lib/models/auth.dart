@@ -13,7 +13,9 @@ class Auth with ChangeNotifier {
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
-  Timer? _authTimer;// this is used to cancel existing timer
+  Timer? _authTimer;
+
+ // this is used to cancel existing timer
   // to ensure that when user login a new timer set
 
   // we check if user is authenticate or not we check token is valid or not
@@ -49,6 +51,7 @@ class Auth with ChangeNotifier {
           'returnSecureToken': true,
         }),
       );
+
       final responseData = json.decode(response.body);
       if (responseData['error'] != null) {
         throw httpException(responseData['error']['message']);
@@ -71,6 +74,7 @@ class Auth with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
+
     } catch (error) {
       throw error;
     }
@@ -101,6 +105,7 @@ class Auth with ChangeNotifier {
     _token = extractedUserData['token'];
     _userId = extractedUserData['userId'];
     _expiryDate = expiryDate;
+
     notifyListeners();
     _autoLogout();
     return true;
