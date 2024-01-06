@@ -28,7 +28,7 @@ To run the InstBuy app on your local machine, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/tanmay910/.git
+   git clone [https://github.com/tanmay910/.git](https://github.com/tanmay910/Shop_App.git)
    ```
 
 2. Navigate to the project directory:
@@ -55,6 +55,12 @@ To run the InstBuy app on your local machine, follow these steps:
   - **Dart:** The programming language optimized for building mobile, desktop, server, and web applications.
 
   - **RealTime Database (Firebase):** InstBuy leverages Firebase's Realtime Database to ensure a dynamic and responsive shopping experience. The Realtime Database facilitates instant synchronization of product     listings, user authentication, and order updates across all connected devices. This contributes to the reliability and performance of the InstBuy app, providing users with up-to-date information and a smooth shopping journey
+
+## Screenshots
+
+
+
+
 ## Contributing
 
 Feel free to contribute to InstBuy by submitting bug reports, feature requests, or even your own enhancements. We appreciate your support in making InstBuy even better!
